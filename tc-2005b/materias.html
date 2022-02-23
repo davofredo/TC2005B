@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html lang="es-mx" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Sistema Alumnos</title>
+    <link href="Estilos/estilos.css" rel="stylesheet" type="text/css" />
+    <script src="JavaScript/utilerias.js" type="text/javascript"></script>
+    <script src="JavaScript/materias.js" type="text/javascript"></script>
+</head>
+<body>
+    <center>
+        <table border="3" width="70%">
+            <form name="f_materias">
+                <tr bgcolor="#93C2F4">
+                    <td colspan="2"><p class="texto16">Formulario Materias</p></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica la clave de la materia</p></td>
+                    <td align="center"><input name="cve" type="text" size="12" maxlength="12" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica el nombre de la materia</p></td>
+                    <td align="center"><input name="nom" type="text" size="12" maxlength="12" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indicalos creditos de la materia</p></td>
+                    <td align="center"><input name="nom" type="text" size="12" maxlength="12" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica los periodos la materia</p></td>
+                    <td align="center"><input name="nom" type="text" size="12" maxlength="12" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input name="b_altas" type="button" value="Altas" class="boton" style="width:200px" onclick="altaMaterias()" />
+                        <input name="b_bajas" type="button" value="Bajas" class="boton" style="width:200px" onclick="bajaMaterias()" />
+                        <input name="b_consultas" type="button" value="Consultas" class="boton" style="width:200px" onclick="consultaMaterias()" />
+                        <input name="b_limpiar" type="reset" value="Liimpiar Formulario" class="boton" style="width:200px" />
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </center>
+</body>
+</html>

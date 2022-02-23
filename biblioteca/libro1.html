@@ -1,0 +1,113 @@
+<script language=javascript>
+
+    var xhr;
+
+    function obtenerResultadoJson() {
+        var datos = "";
+
+        if (xhr.readyState == 4) {
+            //document.getElementById("transaccion").innerHTML = xhr.responseText;
+
+            libros = eval("(" + xhr.responseText + ")");
+            //clientes = JSON.parse(xhr.responseText);
+
+            document.getElementById("resultados").innerHTML = xhr.responseText;
+            //document.getElementById("resultados").innerHTML = clientes;
+
+            datos = "<table border=1>";
+            for(i=0; i<libros.length; i++)
+            {
+                //datos = datos + clientes[i].nocta+"   "+clientes[i].nombre+"   "+clientes[i].nombre+"   "+clientes[i].saldo+"<br/>";
+                datos = datos +"<tr><td>"+libros[i].titulo+"</td><td>"+libros[i].autor+"</td><td>"+libros[i].editorial+"</td></tr>";
+            }
+            datos = datos + "</table>";
+
+            document.getElementById("resultados").innerHTML = datos;
+        }
+    }
+
+    function establecerConexionConsultar(urlString) {
+        xhr.open("get", urlString, true);
+        //xhr.onreadystatechange=obtenerResultado;
+        xhr.onreadystatechange = obtenerResultadoJson;
+        xhr.send(null);
+    }
+
+    function obtenerResultado() {
+        if (xhr.readyState == 4) {
+            document.getElementById("resultados").innerHTML = xhr.responseText;
+        }
+    }
+
+    function establecerConexion(urlString) {
+        xhr.open("get", urlString, true);
+        xhr.onreadystatechange = obtenerResultado;
+        xhr.send(null);
+    }
+
+    function consultarTitulo() {
+        // 1. Obtener el valor del Tipo de Cuenta del TextField correspondiente
+        var titulo = document.getElementById("titulo").value;
+
+        // 2. Preparar el URL String
+        var urlString = "../biblioteca/Libro.jsp?bConsultarTitulo=consultar&titulo=" + titulo;
+
+        // 3. Crear el objeto de conexion
+        xhr = new XMLHttpRequest();
+
+        // 4. Establecer conexion y ejecutar transaccion
+        establecerConexion(urlString);
+    }
+
+    function consultarEditorial() {
+        // 1. Obtener el valor del Tipo de Cuenta del TextField correspondiente
+        var editorial = document.getElementById("editorial").value;
+
+        // 2. Preparar el URL String
+        var urlString = "../biblioteca/Libro.jsp?bConsultarEditorial=consultar&editorial=" + editorial;
+
+        // 3. Crear el objeto de conexion
+        xhr = new XMLHttpRequest();
+
+        // 4. Establecer conexion y ejecutar transaccion
+        establecerConexion(urlString);
+    }
+
+    function consultar() {
+
+        // 1. Preparar el URL String
+        var urlString = "../biblioteca/Libro.jsp?bConsultar=consultar";
+
+        // 1. Crear el objeto de conexion
+        xhr = new XMLHttpRequest();
+
+        // 3. Establecer conexion y ejecutar transaccion
+        establecerConexionConsultar(urlString);
+    }
+
+</script>
+
+<html>
+<head>
+    <title>WEB Server Tomcat</title>
+</head>
+<body>
+    <h2>Bibliteca TEC:</h2>
+    <form action='../biblioteca/Libro.jsp' method='get'>
+        TITULO:    <input type='text' id="titulo" name='titulo' value=''><br />
+        AUTOR:     <input type='text' id="autor" name='autor' value=''><br />
+        EDITORIAL: <input type='text' id="editorial" name='editorial' value=''><br /><br />
+        <input type='submit' name='bCapturar' id="boton" value='Capturar datos'>
+        <input type='submit' name='bConsultar' id="boton" value='Consultar Libros'>
+        <input type='submit' name='bConsultarEditorial' id="boton" value='Consultar editorial'>
+        <input type='submit' name='bConsultarTitulo' id="boton" value='Consultar titulo'><br />
+
+        <input type='button' name='bConsultarJson' id='bConsultarJson' value='Consultar Libros JSON' onclick='consultar()'>
+        <input type='button' name='bConsultarEditorialJson' id='bConsultarEditorialJson' value='Consultar Editorial JSON' onclick='consultarEditorial()'>
+        <input type='button' name='bConsultarTituloJson' id='bConsultarTituloJson' value='Consultar Titulo JSON' onclick='consultarTitulo()'>
+
+    </form>
+    <br /><br />
+    Libros: <div id='resultados'></div>
+</body>
+</html>

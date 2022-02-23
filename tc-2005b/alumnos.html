@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html lang="es-mx" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Sistema Alumnos</title>
+    <link href="Estilos/estilos.css" rel="stylesheet" type="text/css" />
+    <script src="JavaScript/utilerias.js" type="text/javascript"></script>
+    <script src="JavaScript/alumnos.js" type="text/javascript"></script>
+</head>
+<body>
+    <center>
+        <table border="3" width="70%">
+            <form name="f_alumno">
+                <tr bgcolor="#93C2F4">
+                    <td colspan="2"><p class="texto16">Formulario de alumnos</p></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica la matrícula</p></td>
+                    <td align="center"><input name="mat" type="text" size="9" maxlength="9" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica el(los) nombre(s)</p></td>
+                    <td align="center"><input name="nom" type="text" size="30" maxlength="30" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica el Apellido Paterno</p></td>
+                    <td align="center"><input name="ap" type="text" size="30" maxlength="30" class="campo" /></td>
+                </tr>
+                <tr align="center">
+                    <td><p class="texto14">Indica el Apellido Materno</p></td>
+                    <td align="center"><input name="am" type="text" size="30" maxlength="30" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica la Carrera</p></td>
+                    <td align="center"><input name="car" type="text" size="5" maxlength="4" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td><p class="texto14">Indica el promedio</p></td>
+                    <td align="center"><input name="prom" type="number" size="5" maxlength="3" class="campo" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input name="b_altas" type="button" value="Altas" class="boton" style="width:200px" onclick="altaAlumnos()" />
+                        <input name="b_bajas" type="button" value="Bajas" class="boton" style="width:200px" onclick="bajaAlumnos()" />
+                        <input name="b_consultas" type="button" value="Consultas" class="boton" style="width:200px" onclick="consultaAlumnos()" />
+                        <input name="b_cambios" type="button" value="Cambios" class="boton" style="width:200px" />
+                        <input name="b_limpiar" type="reset" value="Liimpiar Formulario" class="boton_limpiar" style="width:200px" />
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </center>
+</body>
+</html>

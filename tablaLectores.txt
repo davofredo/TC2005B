@@ -1,0 +1,8 @@
+CREATE TABLE Lectores(clave 	  VARCHAR(15) NOT NULL,
+		      descripcion VARCHAR(50) NOT NULL,
+		      tipo_lector INT 	      NOT NULL,
+		      lector 	  INT 	      NOT NULL,
+		      conexion 	  VARCHAR(30) NOT NULL,
+		      activo 	  INT	      NOT NULL,
+		      mac 		      NULL,
+		      PRIMARY KEY(clave), UNIQUE(lector))

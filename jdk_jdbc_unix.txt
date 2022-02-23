@@ -1,0 +1,4 @@
+
+export CLASSPATH=/mysql-connector-java-5.1.40/mysql-connector-java-5.1.40.jar:$CLASSPATH
+
+export CLASSPATH=/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48.jar:$CLASSPATH

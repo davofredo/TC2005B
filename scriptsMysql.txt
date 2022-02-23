@@ -1,0 +1,50 @@
+CREATE DATABASE Moderna;
+USE Moderna;
+
+CREATE TABLE Empleados_Local(noempleado      INT		    NOT NULL, 
+							 nombre_completo VARCHAR(255)  	NULL,
+							 id              INT            NOT NULL, 							 
+							 activo          TINYINT 		NULL, 
+							 localidad       VARCHAR(30) 	NULL, 
+							 zona_acceso     VARCHAR(30) 	NULL, 
+							 no_sincroniza   TINYINT 		NULL, 
+							 f_creacion      DATETIME 	    NULL, 
+							 f_modificacion  DATETIME 		NULL, 
+							 PRIMARY KEY(noempleado));
+							 
+CREATE TABLE Lectores(clave 	  		VARCHAR(30) 	NOT NULL,
+					  descripcion 		VARCHAR(150) 	NOT NULL,
+		              tipo_lector 		INT 	      	NULL,
+		              lector 	  		INT 	      	NOT NULL,
+		              conexion 	  		VARCHAR(255) 	NULL,
+		              activo 	  		INT 	      	NULL,
+					  f_ultima_marca    DATETIME        NULL,
+		              mac 		  		VARCHAR(20) 	NULL,
+					  UNIQUE(lector),
+		              PRIMARY KEY(clave));
+
+CREATE TABLE USUARIO(email          VARCHAR(30) NOT NULL,
+				     contraseña     VARCHAR(15) NOT NULL,
+                     permisos       TINYINT     NOT NULL,
+                     estado         TINYINT     NOT NULL,
+                     zona           VARCHAR(30) NOT NULL,
+                     fecha_creacion DATE        NOT NULL,
+                     noemp          INT         NOT NULL,
+                     PRIMARY KEY(email),
+                     FOREIGN KEY(noemp) REFERENCES Empleados_Local(noempleado));
+
+
+CREATE TABLE Marcas_Transferidas(hora	       DATETIME          NOT NULL,
+								 noemp         INT               NOT NULL,
+								 cve 		   VARCHAR(30)       NOT NULL,
+								 f_creacion    DATETIME          NULL,
+								 transferencia INT        		 NOT NULL,
+								 consecutivo   INT       		 NOT NULL,
+								 lector        INT               NOT NULL,				             								 
+								 ubicacion     VARCHAR(25)       NULL,
+								 codigo_marca  TINYINT           NULL,
+								 complemento   VARCHAR(255)      NULL,
+								 FOREIGN KEY (cve) REFERENCES Lectores(clave),
+								 FOREIGN KEY (noemp) REFERENCES Empleados_Local(noempleado));
+
+					   
