@@ -1,12 +1,13 @@
 {
     "java.project.sourcePaths": [
         "banco",
+        "Intern39-open-closed-principle",
         "Intern39-Interface-segregation-principle",
         "Intern39-Dependency-inversion-principle",
         "Intern39-Argumentos",
         "Interfaz",
         "Dependencia",
         "Actividad1-ArturoCaballeroOrtegaIntern39",
-        "Intern39-open-closed-principle"
+        "TiposDeDatos"
     ]
 }
