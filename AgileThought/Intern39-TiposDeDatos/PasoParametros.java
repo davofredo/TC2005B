@@ -1,5 +1,3 @@
-import javax.print.attribute.SupportedValuesAttribute;
-
 public class PasoParametros {
     public static void main(String[] args) {
         boolean esValido = false;

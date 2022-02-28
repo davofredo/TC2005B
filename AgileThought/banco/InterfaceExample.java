@@ -1,5 +1,3 @@
-package com.at.intership;
-
 public class InterfaceExample {
 
     public static void main(String[] args) {

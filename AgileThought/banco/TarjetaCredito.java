@@ -1,5 +1,3 @@
-package com.at.intership;
-
 public class TarjetaCredito implements ProductoFinanciero {
 
     private double lineaCredito;

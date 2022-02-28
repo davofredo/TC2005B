@@ -1,6 +1,4 @@
 public class Configuracion {
-    private double maxLineaCreditoPorIngresoMensual;
-
     public double getMaxLineaCreditoPorIngresoMensual() {
         return maxLineaCreditoPorIngresoMensual;
     }
@@ -8,4 +6,6 @@ public class Configuracion {
     public void setMaxLineaCreditoPorIngresoMensual(double maxLineaCreditoPorIngresoMensual) {
         this.maxLineaCreditoPorIngresoMensual = maxLineaCreditoPorIngresoMensual;
     }
+
+    private double maxLineaCreditoPorIngresoMensual;
 }

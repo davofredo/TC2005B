@@ -1,5 +1,3 @@
-package com.at.intership;
-
 public abstract class CuentaBancaria implements ProductoFinanciero {
     private double balance;
 

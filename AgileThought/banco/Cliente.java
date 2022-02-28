@@ -1,5 +1,3 @@
-package com.at.intership;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +12,16 @@ public class Cliente {
         this.ingresoMensual = ingresoMensual;
     }
 
-    public String getNombre() {return nombre;}
-    public String getNumCliente() {return numCliente;}
-    public double getIngresoMensual() {return ingresoMensual;}
-    
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getNumCliente() {
+        return numCliente;
+    }
+
+    public double getIngresoMensual() {
+        return ingresoMensual;
+    }
+
 }

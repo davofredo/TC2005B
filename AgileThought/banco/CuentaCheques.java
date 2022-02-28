@@ -1,5 +1,3 @@
-package com.at.intership;
-
 public class CuentaCheques extends CuentaBancaria {
 
     private double comisionRetiro;
