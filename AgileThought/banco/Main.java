@@ -24,23 +24,23 @@ public class Main {
 
         // Cuenta inversion
         // Definir impuesto %
-        double impuesto = 0.15;
-        CuentaInversion cuentaInversion = new CuentaInversion(1000.0, 0.05);
-        System.out.println("Balance inicial: " + cuentaInversion.getBalance());
-        System.out.println("Retiro: 600");
-        cuentaInversion.reducirFondos(600.0);
-        System.out.println("Nuevo balance: " + cuentaInversion.getBalance());
-        System.out.println("Retiro: 600");
-        cuentaInversion.reducirFondos(600.0);
-        System.out.println("Nuevo balance:" + cuentaInversion.getBalance());
-        System.out.println("Aplicando corte...");
-        cuentaInversion.aplicarCorte();
-        System.out.println("Nuevo balance:" + cuentaInversion.getBalance());
-        cuentaInversion.imprimirEstadoCuenta();
-        // modificar impuesto
-        cuentaInversion.setImpuesto(impuesto);
-        cuentaInversion.aplicarCorte();
-        System.out.println("Nuevo balance:" + cuentaInversion.getBalance());
+        //double impuesto = 0.15;
+        //CuentaInversion cuentaInversion = new CuentaInversion(1000.0, 0.05);
+        //System.out.println("Balance inicial: " + cuentaInversion.getBalance());
+        //System.out.println("Retiro: 600");
+        //cuentaInversion.reducirFondos(600.0);
+        //System.out.println("Nuevo balance: " + cuentaInversion.getBalance());
+        //System.out.println("Retiro: 600");
+        //cuentaInversion.reducirFondos(600.0);
+        //System.out.println("Nuevo balance:" + cuentaInversion.getBalance());
+        //System.out.println("Aplicando corte...");
+        //cuentaInversion.aplicarCorte();
+        //System.out.println("Nuevo balance:" + cuentaInversion.getBalance());
+        //cuentaInversion.imprimirEstadoCuenta();
+        //// modificar impuesto
+        //cuentaInversion.setImpuesto(impuesto);
+        //cuentaInversion.aplicarCorte();
+        //System.out.println("Nuevo balance:" + cuentaInversion.getBalance());
 
         // Cuenta de cheques: Comisión por retiro
         // Cuenta de inversion: + intereses
@@ -67,12 +67,16 @@ public class Main {
         // 2. Por cada producto financiero que no tenga saldo en 0 imprimir su estado de cuenta
         // 2.1. Al final de todos los estados de cuenta imprimir "Cancelación denegada"
 
-//        Cliente cliente = new Cliente("David", "12345", 20000);
-//        Configuracion conf = new Configuracion();
-//        conf.setMaxLineaCreditoPorIngresoMensual(4.0);
-//        AdministradorProducto adm = new AdministradorProducto(conf);
-//        adm.agregarProducto(cliente, tarjetaCredito);
-//        System.out.println(String.format("El cliente %s ha solicitado cancelar sus cuentas", cliente.getNumCliente()));
+        CuentaCheques cheques = new CuentaCheques(5000, 3.0);
+        CuentaInversion inversion = new CuentaInversion(1000, 0.5);
+        inversion.setImpuesto(0.16);
+
+        Cliente cliente = new Cliente("David", "12345", 20000);
+        Configuracion conf = new Configuracion();
+        conf.setMaxLineaCreditoPorIngresoMensual(4.0);
+        AdministradorProducto adm = new AdministradorProducto(conf);
+        adm.agregarProducto(cliente, cheques);
+        //System.out.println(String.format("El cliente %s ha solicitado cancelar sus cuentas", cliente.getNumCliente()));
 //        if(adm.puedeCancelar(cliente)) {
 //            System.out.println("Cancelación autorizada");
 //        } else {
