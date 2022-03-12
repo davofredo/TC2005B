@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class AdministradorProducto {
     private Configuracion conf;
@@ -22,6 +21,14 @@ public class AdministradorProducto {
             double ingresoMensual = cliente.getIngresoMensual();
             double lineaCredito = ((TarjetaCredito) producto).getLineaCredito();
             if (lineaCredito > ingresoMensual * conf.getMaxLineaCreditoPorIngresoMensual()) {
+                System.out.println("Linea de credito excesiva para este cliente");
+                return;
+            }
+        }
+
+        if (producto instanceof CuentaInversion) {
+            double lineaImpuesto = ((CuentaInversion) producto).getImpuesto();
+            if (conf.getImpuestoPorInteresGenerado() > lineaImpuesto) {
                 System.out.println("Linea de credito excesiva para este cliente");
                 return;
             }
@@ -47,11 +54,6 @@ public class AdministradorProducto {
         productos.add(producto);
     }
 
-    public int getTamanoLista() {
-        int tamano = mapaProductos.size();
-        return tamano;
-    }
-
     public List<ProductoFinanciero> getProductos(String numCliente) {
         List<ProductoFinanciero> productos = mapaProductos.get(numCliente);
         if (productos == null)
@@ -72,10 +74,13 @@ public class AdministradorProducto {
     }
 
     public void cancelar(String numCuenta, ProductoFinanciero producto) {
-        if (mapaProductos.remove(numCuenta, producto))
+        List<ProductoFinanciero> productos = mapaProductos.get(numCuenta);
+        for (ProductoFinanciero productoFinanciero : productos) {
+            if (mapaProductos.remove(numCuenta, productoFinanciero))
             System.out.println("Producto eliminado");
         else
             System.out.println("Error al eliminar");
+        }
     }
 
     public void cancelar(String numCuenta) {
@@ -83,20 +88,29 @@ public class AdministradorProducto {
         System.out.println("Productos de la cuenta eliminados");
     }
 
-    public void modificarLineasDeCredito(double nuevaLineaCredito) {
-        Set<String> keys = mapaProductos.keySet();
-        for (ProductoFinanciero pf : mapaProductos.get(keys)) {
-            if (pf instanceof TarjetaCredito) {
-                ((TarjetaCredito) pf).setLineaCredito(nuevaLineaCredito);
+    public void modificarLineasDeCredito(String cuenta, double nuevaLineaCredito) {
+        List<ProductoFinanciero> productos = getProductos(cuenta);
+        for (ProductoFinanciero productoFinanciero : productos) {
+            if(productoFinanciero instanceof TarjetaCredito) {
+                ((TarjetaCredito)productoFinanciero).setLineaCredito(nuevaLineaCredito);
             }
         }
     }
 
-    public void modificarImpuestoPorInteresGenerado(double nuevoImpuestoPorInteresGenerado) {
-        Set<String> keys = mapaProductos.keySet();
-        for (ProductoFinanciero pf : mapaProductos.get(keys)) {
-            if (pf instanceof CuentaInversion) {
-                ((CuentaInversion) pf).setImpuesto(nuevoImpuestoPorInteresGenerado);
+    public void modificarComisionAlRetiro(String cuenta, double nuevoComisionAlRetiro) {
+        List<ProductoFinanciero> productos = getProductos(cuenta);
+        for (ProductoFinanciero productoFinanciero : productos) {
+            if(productoFinanciero instanceof CuentaCheques) {
+                ((CuentaCheques)productoFinanciero).setComisionRetiro(nuevoComisionAlRetiro);
+            }
+        }
+    }
+
+    public void modificarInteresAlCorte(String cuenta ,double nuevoInteresAlCorte) {
+        List<ProductoFinanciero> productos = getProductos(cuenta);
+        for (ProductoFinanciero productoFinanciero : productos) {
+            if(productoFinanciero instanceof CuentaInversion) {
+                ((CuentaInversion)productoFinanciero).setInteresAlCorte(nuevoInteresAlCorte);
             }
         }
     }

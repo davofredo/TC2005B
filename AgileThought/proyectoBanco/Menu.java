@@ -1,11 +1,14 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Menu {
     private static Cliente cliente = null;
-    private static AdministradorProducto administradorProductos = new AdministradorProducto(getConfiguracion());
+    private static Configuracion conf = new Configuracion();
+    private static AdministradorProducto administradorProductos = new AdministradorProducto(conf);
     private static Map<String, String> mapaClientes = new HashMap<>();
+    private static ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
 
     public static void menu() {
         String arg;
@@ -19,9 +22,10 @@ public class Menu {
                     break;
                 case "agregar_cuenta_habiente":
                     cliente = agregaCuentaHabiente();
+                    listaClientes.add(cliente);
                     break;
                 case "agregar_productos":
-                    pideProductos(cliente);
+                    Productos.agregaProductos(listaClientes, administradorProductos);
                     break;
                 case "registrar_movimientos":
                     registraMovimientos();
@@ -39,7 +43,7 @@ public class Menu {
                     modificaConfiguracion();
                     break;
                 case "modificar_propiedades_de_productos":
-                    // modificaPropiedadesProducto();
+                    modificaPropiedadesProducto();
                     break;
                 case "exit":
                     estado = false;
@@ -52,25 +56,16 @@ public class Menu {
     }
 
     public static void printAyuda() {
-        System.out.println("ayuda                              - " +
-                "Ver comandos con su descripcion\n" +
-                "agregar_cuenta_habiente            - " +
-                "Agrega Cuenta habientes, se necesitara nombre, numero de clientes y ingreso mensual\n" +
-                "agregar_productos                  - te permite agregar jun producto a la vez\n" +
-                "registrar_movimientos              - permite registrar retiro, cargo, corte, SOLO puede hacer un novimiento a la vez\n"
-                +
-                "imprimir_estados_de_cuenta         - imprime cualquier producto financiero\n" +
-                "baja_productos                     - Da de baja productos asociados a una cuenta-habiente\n" +
-                "baja_cuenta_habientes              - Da de baja cuenta-habiente\n" +
-                "modificar_configuracion            - Permite modificar la linea de credito maximo por ingreso mensula/"
-                +
-                "                                                         porcentaja de impuesto retenido por intereses generados\n"
-                +
-                "modificar_propiedades_de_productos - Modifica la cominsionRetiro de la Cuenta de Cheques, modificar el interesAlCorte"
-                +
-                "                                     de la Cuenta Cheques, modificar la lineaCredito  de la Targjeta de Credito\n"
-                +
-                "exit                               - Salir del programa");
+        System.out.println("ayuda                               - Ver comandos con su descripcion\n" +
+                            "agregar_cuenta_habiente            - Agrega Cuenta habientes, se necesitara nombre, numero de clientes y ingreso mensual\n" + 
+                            "agregar_productos                  - te permite agregar un producto a la vez\n" +
+                            "registrar_movimientos              - permite registrar retiro, cargo, corte, SOLO puede hacer un novimiento a la vez\n" +
+                            "imprimir_estados_de_cuenta         - imprime cualquier producto financiero\n" +
+                            "baja_productos                     - Da de baja productos asociados a una cuenta-habiente\n" +
+                            "baja_cuenta_habientes              - Da de baja cuenta-habiente\n" +
+                            "modificar_configuracion            - Permite modificar la linea de credito maximo por ingreso mensula/porcentaja de impuesto retenido por intereses generados\n" +
+                            "modificar_propiedades_de_productos - Modifica la cominsionRetiro de la Cuenta de Cheques, modificar el interesAlCorte de la Cuenta Cheques, modificar la lineaCredito  de la Targjeta de Credito\n" +
+                            "exit                               - Salir del programa");
     }
 
     public static Cliente agregaCuentaHabiente() {
@@ -81,17 +76,6 @@ public class Menu {
         Cliente cliente = new Cliente(nombre, numCliente, ingresoMensual);
         System.out.println("Cuenta creada exitosamente");
         return cliente;
-    }
-
-    public static void agregaProductos(Cliente cliente) {
-        String tipoProducto = System.console().readLine("Ingrese el tipo de producto > ");
-        if (tipoProducto.equals("cheques")) {
-            administradorProductos.agregarProducto(cliente, creaCheques());
-        } else if (tipoProducto.equals("inversion")) {
-            administradorProductos.agregarProducto(cliente, creaInversion());
-        } else if (tipoProducto.equals("tarjeta_credito")) {
-            administradorProductos.agregarProducto(cliente, creaCredito());
-        }
     }
 
     public static void registraMovimientos() {
@@ -113,89 +97,10 @@ public class Menu {
         }
     }
 
-    public static Configuracion getConfiguracion() {
-        Configuracion conf = new Configuracion();
-        return conf;
-    }
-
-    public static CuentaCheques creaCheques() {
-        double balanceInicial = Double.parseDouble(System.console().readLine("Ingrese el balance inicial\n> "));
-        double cominsionRetiro = Double.parseDouble(System.console().readLine("Ingrese la comision de retiro\n> "));
-        CuentaCheques cheques = new CuentaCheques(balanceInicial, cominsionRetiro);
-        return cheques;
-    }
-
-    public static CuentaInversion creaInversion() {
-        double balanceInicial = Double.parseDouble(System.console().readLine("Ingrese el balance inicial\n> "));
-        double interesAlCorte = Double.parseDouble(System.console().readLine("Ingrese el interes al corte\n> "));
-        CuentaInversion inversion = new CuentaInversion(balanceInicial, interesAlCorte);
-        return inversion;
-    }
-
-    public static TarjetaCredito creaCredito() {
-        double lineaCredito = Double.parseDouble(System.console().readLine("Ingrese la linea de credito\n> "));
-        TarjetaCredito tarjetaCredito = new TarjetaCredito(lineaCredito);
-        return tarjetaCredito;
-    }
-
-    public static void retiro(String noCuenta) {
-        List<ProductoFinanciero> misProductos = administradorProductos.getProductos(noCuenta);
-        String selec = new String(
-                System.console().readLine("Ingrese el nombre del producto a realizar el retiro:\n> "));
-        for (ProductoFinanciero producto : misProductos) {
-            if (selec.equals("cheques")) {
-                if (producto instanceof CuentaCheques) {
-                    producto.reducirFondos(100);
-                    // System.out.println(producto.getClass() + " : " + producto.getSaldo());
-                    System.out.println(producto.getSaldo());
-                }
-            } else if (selec.equals("inversion")) {
-                if (producto instanceof CuentaInversion) {
-                    producto.reducirFondos(10);
-                    System.out.println(producto.getSaldo());
-                }
-            } else if (selec.equals("tarjeta_credito")) {
-                if (producto instanceof TarjetaCredito) {
-                    producto.reducirFondos(200);
-                    System.out.println(producto.getSaldo());
-                }
-            }
-        }
-    }
-
-    public static void cargo(String noCuenta) {
-        List<ProductoFinanciero> misProductos = administradorProductos.getProductos(noCuenta);
-        String selec = new String(
-                System.console().readLine("Ingrese el nombre del producto a realizar el retiro:\n> "));
-        for (ProductoFinanciero producto : misProductos) {
-            if (selec.equals("cheques")) {
-                if (producto instanceof CuentaCheques) {
-                    producto.agregarFondos(100);
-                    // System.out.println(producto.getClass() + " : " + producto.getSaldo());
-                    System.out.println(producto.getSaldo());
-                }
-            } else if (selec.equals("inversion")) {
-                if (producto instanceof CuentaInversion) {
-                    producto.agregarFondos(10);
-                    System.out.println(producto.getSaldo());
-                }
-            } else if (selec.equals("tarjeta_credito")) {
-                if (producto instanceof TarjetaCredito) {
-                    producto.reducirFondos(200);
-                    System.out.println(producto.getSaldo());
-                }
-            }
-        }
-    }
-
-    public static void corte(String noCuenta) {
-        // TODO : hacer el corte
-    }
-
     public static void imprimeEstadosCuenta() {
         String noCuenta = new String(System.console().readLine("Ingrese el numero de cuenta:\n> "));
         String selec = new String(
-                System.console().readLine("Ingrese el nombre del producto a realizar el retiro:\n> "));
+                System.console().readLine("Ingrese el nombre del producto:\n> "));
         List<ProductoFinanciero> misProductos = administradorProductos.getProductos(noCuenta);
         for (ProductoFinanciero producto : misProductos) {
             if (selec.equals("cheques")) {
@@ -217,23 +122,28 @@ public class Menu {
         }
     }
 
+    // TODO
     public static void bajaProductos() {
         String noCuenta = new String(System.console().readLine("Ingrese el numero de cuenta:\n> "));
         List<ProductoFinanciero> misProductos = administradorProductos.getProductos(noCuenta);
         if (administradorProductos.puedeCancelar(noCuenta))
-            System.out.println("Sepuede continuar con la operacion");
+            System.out.println("Se puede continuar con la operacion");
 
         String selec = new String(System.console().readLine("Ingrese el nombre del producto a dar de baja:\n> "));
-        for (ProductoFinanciero producto : misProductos) {
-            if (selec.equals("cheques")) {
+        if (selec.equals("cheques")) {
+            for (ProductoFinanciero producto : misProductos) {
                 if (producto instanceof CuentaCheques) {
                     administradorProductos.cancelar(noCuenta, producto);
                 }
-            } else if (selec.equals("inversion")) {
+            }
+        } else if (selec.equals("inversion")) {
+            for (ProductoFinanciero producto : misProductos) {
                 if (producto instanceof CuentaInversion) {
-                    administradorProductos.cancelar(noCuenta, producto);
+                administradorProductos.cancelar(noCuenta, producto);
                 }
-            } else if (selec.equals("tarjeta_credito")) {
+        }
+        } else if (selec.equals("tarjeta_credito")) {
+            for (ProductoFinanciero producto : misProductos) {
                 if (producto instanceof TarjetaCredito) {
                     administradorProductos.cancelar(noCuenta, producto);
                 }
@@ -243,34 +153,130 @@ public class Menu {
 
     public static void bajaCuentaHabientes() {
         String noCuenta = new String(System.console().readLine("Ingrese el numero de cuenta:\n> "));
-        if (administradorProductos.puedeCancelar(noCuenta))
+        if (administradorProductos.puedeCancelar(noCuenta)){
             System.out.println("Se puede continuar con la operacion");
-        administradorProductos.cancelar(noCuenta);
-        mapaClientes.remove(noCuenta);
+            administradorProductos.cancelar(noCuenta);
+            mapaClientes.remove(noCuenta);
+        }
+        else {
+            System.out.println("Tiene saldo pendiente");
+        }
     }
 
     public static void modificaConfiguracion() {
-        System.out.println("Una vez hecho el cambio este se vera afectado para todas las cuentas");
-        String confACambiar = System.console().readLine("Ingrese que quiere cambiar\n> ");
+        String confACambiar = new String(System.console().readLine("Ingrese la caonfiguracion a cambiar\n> "));
         switch (confACambiar) {
             case "creditoMaximo":
-                modificarLineaDeCredito();
+                double nuevaLineaCredito = Double.parseDouble(System.console().readLine("Ingrese la nueva linea de credito\n> "));
+                conf.setMaxLineaCreditoPorIngresoMensual(nuevaLineaCredito);
                 break;
             case "impuestoRetenido":
-                modificarImpuesto();
+                double nuevoImpuestoRetenido = Double.parseDouble(System.console().readLine("Ingrese el nuevo porcentaja de impuesto por interes generado\n> "));
+                conf.setImpuestoPorInteresGenerado(nuevoImpuestoRetenido);
                 break;
+            default:
+                break;
+        }
+        
+    }
+
+    public static void modificaPropiedadesProducto() {
+        String cuenta = System.console().readLine("Ingrese la cuenta que quiere cambiar\n> ");
+        String confACambiar = System.console().readLine("Ingrese que quiere cambiar\n> ");
+        switch (confACambiar) {
+            case "linea_de_credito":
+                modificarLineaDeCredito(cuenta);
+                break;
+            case "interes_al_corte":
+                modificarInteresesAlCorte(cuenta);
+                break;
+            case "comision_retiro":
+                comisionAlRetiro(cuenta);
             default:    
                 break;
         }
     }
 
-    public static void modificarLineaDeCredito() {
-        double nuevaLineaCredito = Double.parseDouble(System.console().readLine("Ingrese la nueva linea de credito\n> "));
-        administradorProductos.modificarLineasDeCredito(nuevaLineaCredito);
+    public static void retiro(String noCuenta) {
+        List<ProductoFinanciero> misProductos = administradorProductos.getProductos(noCuenta);
+        String selec = new String(
+                System.console().readLine("Ingrese el nombre del producto a realizar el retiro:\n> "));
+        double cantidad = Double.parseDouble(
+                System.console().readLine("Ingrese la cantidad a retirar:\n> "));
+        for (ProductoFinanciero producto : misProductos) {
+            if (selec.equals("cheques")) {
+                if (producto instanceof CuentaCheques) {
+                    producto.reducirFondos(cantidad);
+                    // System.out.println(producto.getClass() + " : " + producto.getSaldo());
+                    System.out.println(producto.getSaldo());
+                }
+            } else if (selec.equals("inversion")) {
+                if (producto instanceof CuentaInversion) {
+                    producto.reducirFondos(cantidad);
+                    System.out.println(producto.getSaldo());
+                }
+            } else if (selec.equals("tarjeta_credito")) {
+                if (producto instanceof TarjetaCredito) {
+                    producto.reducirFondos(cantidad);
+                    System.out.println(producto.getSaldo());
+                }
+            }
+        }
     }
 
-    public static void modificarImpuesto() {
+    public static void cargo(String noCuenta) {
+        List<ProductoFinanciero> misProductos = administradorProductos.getProductos(noCuenta);
+        String selec = new String(
+                System.console().readLine("Ingrese el nombre del producto a realizar el cargo:\n> "));
+                double cantidad = Double.parseDouble(
+                System.console().readLine("Ingrese la cantidad a cargar:\n> "));
+        for (ProductoFinanciero producto : misProductos) {
+            if (selec.equals("cheques")) {
+                if (producto instanceof CuentaCheques) {
+                    producto.agregarFondos(cantidad);
+                    // System.out.println(producto.getClass() + " : " + producto.getSaldo());
+                    System.out.println(producto.getSaldo());
+                }
+            } else if (selec.equals("inversion")) {
+                if (producto instanceof CuentaInversion) {
+                    producto.agregarFondos(cantidad);
+                    System.out.println(producto.getSaldo());
+                }
+            } else if (selec.equals("tarjeta_credito")) {
+                if (producto instanceof TarjetaCredito) {
+                    producto.reducirFondos(cantidad);
+                    System.out.println(producto.getSaldo());
+                }
+            }
+        }
+    }
+
+    public static void corte(String noCuenta) {
+        List<ProductoFinanciero> misProductos = administradorProductos.getProductos(noCuenta);
+        String selec = new String(
+            System.console().readLine("Ingrese el nombre del producto a realizar el corte:\n> "));
+        for (ProductoFinanciero producto : misProductos) {
+            if (selec.equals("inversion")) {
+                if (producto instanceof CuentaInversion) {
+                    ((CuentaInversion)producto).aplicarCorte();
+                    producto.imprimirEstadoCuenta();
+                }
+            }
+        }
+    }
+
+    public static void modificarLineaDeCredito(String cuenta) {
+        double nuevaLineaCredito = Double.parseDouble(System.console().readLine("Ingrese la nueva linea de credito\n> "));
+        administradorProductos.modificarLineasDeCredito(cuenta, nuevaLineaCredito);
+    }
+
+    public static void modificarInteresesAlCorte(String cuenta) {
         double nuevoImpuestoPorInteresGenerado = Double.parseDouble(System.console().readLine("Ingrese el nuevo porcentaja de impuesto por interes generado\n> "));
-        administradorProductos.modificarLineasDeCredito(nuevoImpuestoPorInteresGenerado);
+        administradorProductos.modificarLineasDeCredito(cuenta, nuevoImpuestoPorInteresGenerado);
+    }
+
+    private static void comisionAlRetiro(String cuenta) {
+        double nuevoComisionAlRetiro = Double.parseDouble(System.console().readLine("Ingrese el nuevo porcentaja de comision por retiro\n> "));
+        administradorProductos.modificarComisionAlRetiro(cuenta, nuevoComisionAlRetiro);
     }
 }

@@ -12,6 +12,18 @@ public class CuentaInversion extends CuentaBancaria {
         this.impuesto = impuesto;
     }
 
+    public double getImpuesto() {
+        return impuesto;
+    }
+
+    public void setInteresAlCorte(double interesAlCorte) {
+        this.interesAlCorte = interesAlCorte;
+    }
+
+    public double getInteresAlCorte() {
+        return interesAlCorte;
+    }
+
     public void aplicarCorte() {
         // Balance 2000          
         // Tasa 5%               

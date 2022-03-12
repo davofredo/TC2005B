@@ -7,6 +7,14 @@ public class CuentaCheques extends CuentaBancaria {
         this.comisionRetiro = comisionRetiro;
     }
 
+    public double getComisionRetiro() {
+        return comisionRetiro;
+    }
+    
+    public void setComisionRetiro(double comisionRetiro) {
+        this.comisionRetiro = comisionRetiro;
+    }
+
     @Override
     public void reducirFondos(double importe) {
         double importeTotal = importe + comisionRetiro;
