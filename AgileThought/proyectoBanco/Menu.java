@@ -83,7 +83,7 @@ public class Menu {
         return cliente;
     }
 
-    public static void pideProductos(Cliente cliente) {
+    public static void agregaProductos(Cliente cliente) {
         String tipoProducto = System.console().readLine("Ingrese el tipo de producto > ");
         if (tipoProducto.equals("cheques")) {
             administradorProductos.agregarProducto(cliente, creaCheques());
