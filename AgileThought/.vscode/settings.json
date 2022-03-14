@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
-        "proyectoBanco"
+        "PokerDeck",
+        "Stream"
     ],
     "java.help.shareDiagnostics": true
 }

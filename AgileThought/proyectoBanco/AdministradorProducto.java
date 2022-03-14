@@ -76,7 +76,7 @@ public class AdministradorProducto {
     public void cancelar(String numCuenta, ProductoFinanciero producto) {
         List<ProductoFinanciero> productos = mapaProductos.get(numCuenta);
         for (ProductoFinanciero productoFinanciero : productos) {
-            if (mapaProductos.remove(numCuenta, productoFinanciero))
+            if (mapaProductos.remove(productoFinanciero))
             System.out.println("Producto eliminado");
         else
             System.out.println("Error al eliminar");
