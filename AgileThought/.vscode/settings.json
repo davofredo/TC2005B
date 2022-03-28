@@ -1,7 +1,7 @@
 {
     "java.project.sourcePaths": [
-        "PokerDeck",
-        "Stream"
+        "schedule",
+        "BoundedGenerics"
     ],
     "java.help.shareDiagnostics": true
 }
