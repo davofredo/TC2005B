@@ -2,6 +2,7 @@ package repository;
 
 import domain.Appointment;
 import domain.Contact;
+import interfaces.IRepository;
 import serialization.AppointmentSerializer;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class AppointmentRepository {
+public class AppointmentRepository implements IRepository<Appointment> {
     private static int ID_SEQUENCE = 0;
 
     private List<Appointment> appointmentList = new ArrayList<>();
@@ -33,6 +34,7 @@ public class AppointmentRepository {
         return contactRepository;
     }
 
+    @Override
     public List<Appointment> findAll() {
         return appointmentList.stream().map(Appointment::new).collect(Collectors.toList());
     }
@@ -43,6 +45,7 @@ public class AppointmentRepository {
         return appointmentList.stream().filter(predicate).map(InnerAppointment::new).collect(Collectors.toList());
     }
 
+    @Override
     public Optional<? extends Appointment> findOne(Integer id) {
         return appointmentList
                 .stream().filter(a -> Objects.equals(a.getId(), id)).map(InnerAppointment::new)
@@ -65,6 +68,7 @@ public class AppointmentRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public synchronized Appointment save(Appointment c) throws IOException {
         Appointment clone = new InnerAppointment(c);
         if (clone.getId() == null)
@@ -81,6 +85,7 @@ public class AppointmentRepository {
         return new InnerAppointment(clone);
     }
 
+    @Override
     public synchronized void delete(Integer id) throws IOException {
         appointmentList = appointmentList.stream().filter(c -> !c.getId().equals(id)).collect(Collectors.toList());
         appointmentSerializer.serialize(appointmentList);

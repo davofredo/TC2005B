@@ -14,11 +14,11 @@ public class Rectangulo implements IMedidas {
 
     @Override
     public double calcularPerimetro() {
-        return (this.base * 2) + (this.altura * 2);
+        return (double)((this.base * 2) + (this.altura * 2));
     }
 
     @Override
     public double calcularArea() {
-        return this.base * this.altura;
+        return (double)(this.base * this.altura);
     }
 }

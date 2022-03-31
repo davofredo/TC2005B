@@ -2,6 +2,7 @@ package repository;
 
 import domain.Appointment;
 import domain.Contact;
+import interfaces.IRepository;
 import serialization.ContactSerializer;
 import specification.SpecificationUtils;
 
@@ -13,7 +14,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ContactRepository {
+public class ContactRepository implements IRepository<Contact> {
     private static int ID_SEQUENCE = 0;
 
     private List<Contact> contactList = new ArrayList<>();
@@ -34,6 +35,7 @@ public class ContactRepository {
         return appointmentRepository;
     }
 
+    @Override
     public synchronized List<Contact> findAll() {
         return contactList
                 .stream() // contactList genera stream de salida a través de la función stream()
@@ -56,6 +58,7 @@ public class ContactRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public synchronized Optional<? extends Contact> findOne(Integer id) {
         return contactList
                 .stream().filter(a -> Objects.equals(a.getId(), id)) .map(InnerContact::new)
@@ -70,6 +73,7 @@ public class ContactRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public synchronized Contact save(Contact c) throws IOException {
         Contact clone = new Contact(c);
         if (clone.getId() == null)
@@ -86,6 +90,7 @@ public class ContactRepository {
         return new Contact(clone);
     }
 
+    @Override
     public synchronized void delete(Integer id) throws IOException {
         contactList = contactList
                 .stream()

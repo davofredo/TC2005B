@@ -21,9 +21,8 @@ public class GatoMain {
             System.out.println("Ingresa las coordenadas en formato x,y");
             String dato = sc.nextLine();
             Integer[] coordenadas = obtenerCoordenadas(dato);
-            if (!revisarCasilla(tablero, dato)) {
-                System.out.println("Lugar ocupado");
-            } else {
+            if (!revisarCasilla(tablero, dato)) System.out.println("Lugar ocupado");
+            else {
                 insertarFicha(tablero, coordenadas[0], coordenadas[1], jugadorActual);
                 if (ronda > 3) {
                     if(juegoGanador(tablero)) {
@@ -34,9 +33,7 @@ public class GatoMain {
                 imprimirTablero(tablero);
                 jugadorActual = obtenerJugadorActual(++ronda);
             }
-            if(ronda == 9) {
-                juegoTerminado = true;
-            }
+            if(ronda == 9) juegoTerminado = true;
         } while (!juegoTerminado);
     }
 
@@ -89,61 +86,25 @@ public class GatoMain {
             iguales = 0;
             for (int j = 0; j < 2; j++) {
                 if (tablero[i][j].equals("-") && tablero[i][j+1].equals("-")) break;
-                if (tablero[i][j].equals(tablero[i][j+1])){
-                    iguales++;
-                }
-                if (iguales == 2) {
+                if (tablero[i][j].equals(tablero[i][j+1])) iguales++;
+                if (iguales == 2)
                     return true;
-                }
             }
         }
-        //return false;
 
         iguales = 0;
         for (int i = 0; i < 3; i++){
             iguales = 0;
             for (int j = 0; j < 2; j++) {
                 if (tablero[j][i].equals("-") && tablero[j+1][i].equals("-")) break;
-                if (tablero[j][i].equals(tablero[j+1][i])){
-                    iguales++;
-                }
-                if (iguales == 2) {
-                    return true;
-                }
+                if (tablero[j][i].equals(tablero[j+1][i])) iguales++;
+                if (iguales == 2) return true;
             }
         }
 
-        iguales = 0;
-        for (int i = 0; i < 2; i++){
-            iguales = 0;
-            for (int j = 0; j < 2; j++) {
-                if (tablero[i][j].equals("-") && tablero[i+1][j+1].equals("-")) break;
-                if (tablero[i][j].equals(tablero[i+1][j+1])){
-                    iguales++;
-                }
-                if (iguales == 2) {
-                    return true;
-                }
-                i++;
-            }
-            i--;
-        }
-
-        iguales = 0;
-        for (int i = 0; i < 2; i++){
-            iguales = 0;
-            for (int j = 2; j > 0; j--) {
-                if (tablero[i][j].equals("-") && tablero[i+1][j-1].equals("-")) break;
-                if (tablero[i][j].equals(tablero[i+1][j-1])){
-                    iguales++;
-                }
-                if (iguales == 2) {
-                    return true;
-                }
-                i++;
-            }
-            i--;
-        }
+        if (tablero[0][0].equals(tablero[1][1]) && tablero[1][1].equals(tablero[2][2])) return true;
+        if (tablero[0][2].equals(tablero[1][1]) && tablero[1][1].equals(tablero[2][0])) return true;
+        
         return false;
     }
 }

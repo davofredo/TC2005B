@@ -1,7 +1,6 @@
 {
     "java.project.sourcePaths": [
-        "schedule",
-        "BoundedGenerics"
+        "Intern39-Figuras-ArturoCaballeroOrtega"
     ],
     "java.help.shareDiagnostics": true
 }

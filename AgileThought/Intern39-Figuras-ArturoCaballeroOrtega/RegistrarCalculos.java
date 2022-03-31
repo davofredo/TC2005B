@@ -1,3 +1,7 @@
+import java.util.NoSuchElementException;
+
+import javax.swing.JOptionPane;
+
 import constants.Mensajes;
 import constants.ProcesosEnum;
 import constants.TipoFigurasEnum;
@@ -8,14 +12,12 @@ import figuras.Equilatero;
 import figuras.Isosceles;
 import figuras.Rectangulo;
 import interfaces.IMedidas;
-
-import javax.swing.*;
-import java.util.NoSuchElementException;
+import interfaces.IMenu;
 import java.util.stream.Stream;
 
-public class Main {
+public class RegistrarCalculos implements IMenu<TipoFigurasEnum> {
 
-    public static void main(String[] args) {
+    public static void figuras() {
         ProcesosEnum procesoActual = ProcesosEnum.INGRESO_FIGURA;
         TipoFigurasEnum figura = null;
         boolean procesoCompletado = false;
@@ -23,6 +25,7 @@ public class Main {
         TipoFigurasEnum[] figuras = TipoFigurasEnum.values();
         IMedidas medidas = null;
         StringBuilder mensaje = new StringBuilder();
+        RegistrarCalculos regCalculos = new RegistrarCalculos();
 
         for (TipoFigurasEnum f : figuras) {
             sb.append(String.format(Mensajes.FORMATO_OPCIONES, f.getOpcion(), f.getNombre()));
@@ -32,7 +35,7 @@ public class Main {
             try {
                 switch (procesoActual) {
                     case INGRESO_FIGURA:
-                        figura = getNombre(sb.toString());
+                        figura = regCalculos.getNombre(sb.toString());
                         System.out.println("figura = " + figura);
                     case INGRESO_VALORES:
                         switch (figura) {
@@ -57,10 +60,10 @@ public class Main {
                                         Mensajes.UNIDAD_MEDIDA_CM));
                                 break;
                             case RECTANGULO:
-                                double base = Double.parseDouble(JOptionPane.showInputDialog(
-                                        String.format(Mensajes.INGRESO_BASE, Mensajes.UNIDAD_MEDIDA_CM)));
-                                double altura = Double.parseDouble(JOptionPane.showInputDialog(
-                                        String.format(Mensajes.INGRESO_ALTURA, Mensajes.UNIDAD_MEDIDA_CM)));
+                            double base = Double.parseDouble(JOptionPane.showInputDialog(
+                                String.format(Mensajes.INGRESO_BASE, Mensajes.UNIDAD_MEDIDA_CM)));
+                            double altura = Double.parseDouble(JOptionPane.showInputDialog(
+                                String.format(Mensajes.INGRESO_ALTURA, Mensajes.UNIDAD_MEDIDA_CM)));
                                 medidas = new Rectangulo(base, altura);
                                 mensaje.append(String.format(Mensajes.MENSAJE_SALIDA, figura, "base",
                                         base, Mensajes.UNIDAD_MEDIDA_CM, "altura",
@@ -95,8 +98,11 @@ public class Main {
                             default:
                                 break;
                         }
+                    default:
+                        break;
                 }
                 JOptionPane.showMessageDialog(null, mensaje);
+                GuardarArchivo.guardar(figura, medidas);
                 procesoCompletado = true;
             } catch (ProcesoInterrumpidoException ex) {
                 procesoActual = ex.getProceso();
@@ -107,9 +113,10 @@ public class Main {
         } while (!procesoCompletado);
     }
 
-    public static TipoFigurasEnum getNombre(String mensaje) throws ProcesoInterrumpidoException {
+    @Override
+    public TipoFigurasEnum getNombre(String opciones) throws ProcesoInterrumpidoException {
         try {
-            String opcionFigura = JOptionPane.showInputDialog(mensaje);
+            String opcionFigura = JOptionPane.showInputDialog(opciones);
 
             if (opcionFigura == null) {
                 throw new NullPointerException();
@@ -121,12 +128,6 @@ public class Main {
         } catch (NoSuchElementException | NumberFormatException ex) {
             throw new ProcesoInterrumpidoException("Nombre de figura inválido", ProcesosEnum.INGRESO_FIGURA);
         } catch (NullPointerException ex) {
-            int opcionUsuario = JOptionPane.showConfirmDialog(null, "¿Desea salir de la aplicación?");
-
-            if (opcionUsuario == 0) {
-                System.exit(0);
-            }
-
             throw new ProcesoInterrumpidoException(ProcesosEnum.INGRESO_FIGURA);
         }
     }
