@@ -10,9 +10,6 @@ import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 public class Menu implements IMenu<OpcionesMenuEnum> {
-    public static void main(String[] args) {
-        menu();
-    }
 
     public static void menu() {
         boolean terminado = false;
@@ -37,7 +34,7 @@ public class Menu implements IMenu<OpcionesMenuEnum> {
                                 RegistrarCalculos.figuras();
                                 break;
                             case ABRIR_ARCHIVOS:
-
+                                AbrirRegistro.registro();
                                 break;
                             case SALIR:
                                 System.exit(0);

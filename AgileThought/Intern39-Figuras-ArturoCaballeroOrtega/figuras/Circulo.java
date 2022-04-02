@@ -1,5 +1,8 @@
 package figuras;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import interfaces.IMedidas;
 
 public class Circulo implements IMedidas {
@@ -23,9 +26,16 @@ public class Circulo implements IMedidas {
     public double getRadio() {
         return radio;
     }
-    
+
     public double getDiametro() {
         return radio * 2;
     }
 
+    @Override
+    public String toString() {
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("en", "UK"));
+        return "Circulo: " + "perimetro " + nf.format(calcularPerimetro()) + " area " + nf.format(calcularArea())
+                + " radio " + nf.format(this.radio)
+                + " y de diametro " + nf.format(getDiametro());
+    }
 }
