@@ -32,6 +32,7 @@ public class RegistrarCalculos implements IMenu<TipoFigurasEnum> {
 
         do {
             try {
+                // TODO: El codigo se torna mas complicado de lo necesario, al igual que con la clase Menu
                 switch (procesoActual) {
                     case INGRESO_FIGURA:
                         figura = regCalculos.getNombre(sb.toString());
@@ -39,43 +40,50 @@ public class RegistrarCalculos implements IMenu<TipoFigurasEnum> {
                     case INGRESO_VALORES:
                         switch (figura) {
                             case CIRCULO:
+                                // TODO: Posible NumberFormatException no manejado
                                 double radio = Double.parseDouble(JOptionPane.showInputDialog(
                                         String.format(Mensajes.INGRESO_RADIO, Mensajes.UNIDAD_MEDIDA_CM)));
                                 medidas = new Circulo(radio);
                                 mensaje.append(String.format(Mensajes.MENSAJE_SALIDA, medidas.toString()));
                                 break;
                             case CUADRADO:
+                                // TODO: Posible NumberFormatException no manejado
                                 double lado = Double.parseDouble(JOptionPane.showInputDialog(
                                         String.format(Mensajes.INGRESO_LADO, Mensajes.UNIDAD_MEDIDA_CM)));
                                 medidas = new Cuadrado(lado);
                                 mensaje.append(String.format(Mensajes.MENSAJE_SALIDA, medidas.toString()));
                                 break;
                             case RECTANGULO:
+                                // TODO: Posible NumberFormatException no manejado
                                 double base = Double.parseDouble(JOptionPane.showInputDialog(
                                         String.format(Mensajes.INGRESO_BASE, Mensajes.UNIDAD_MEDIDA_CM)));
+                                // TODO: Posible NumberFormatException no manejado
                                 double altura = Double.parseDouble(JOptionPane.showInputDialog(
                                         String.format(Mensajes.INGRESO_ALTURA, Mensajes.UNIDAD_MEDIDA_CM)));
                                 medidas = new Rectangulo(base, altura);
                                 mensaje.append(String.format(Mensajes.MENSAJE_SALIDA, medidas.toString()));
                                 break;
                             case TRIANGULO_EQUILATERO:
+                                // TODO: Posible NumberFormatException no manejado
                                 double lad = Double.parseDouble(JOptionPane.showInputDialog(
                                         String.format(Mensajes.INGRESO_LADO, Mensajes.UNIDAD_MEDIDA_CM)));
                                 medidas = new Equilatero(lad);
                                 mensaje.append(String.format(Mensajes.MENSAJE_SALIDA, medidas.toString()));
                                 break;
                             case TRIANGULO_ISOSCELES:
+                                // TODO: Posible NumberFormatException no manejado
                                 double la = Double.parseDouble(JOptionPane.showInputDialog(
                                         String.format(Mensajes.INGRESO_LADO, Mensajes.UNIDAD_MEDIDA_CM)));
+                                // TODO: Posible NumberFormatException no manejado
                                 double bas = Double.parseDouble(JOptionPane.showInputDialog(
                                         String.format(Mensajes.INGRESO_BASE, Mensajes.UNIDAD_MEDIDA_CM)));
                                 medidas = new Isosceles(la, bas);
                                 mensaje.append(String.format(Mensajes.MENSAJE_SALIDA, medidas.toString()));
                                 break;
-                            default:
+                            default: // TODO: El default no resulta muy util
                                 break;
                         }
-                    default:
+                    default: // TODO: El default no resulta muy util
                         break;
                 }
                 JOptionPane.showMessageDialog(null, mensaje);

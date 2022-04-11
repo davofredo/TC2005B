@@ -6,6 +6,7 @@ public class AbrirRegistro {
 
     public static void registro() {
         File carpeta = new File("./calculos");
+        // TODO: No se valida si la carpeta existe
         String[] carpetas = carpeta.list();
         StringBuilder listaCarpetas = new StringBuilder("Ingrese el número de la carpeta a visitar\n");
         int num = 1;
@@ -14,8 +15,11 @@ public class AbrirRegistro {
             num++;
         }
 
+        // TODO: NumberFormatException no manejado
+        // TODO: Posible null no manejado
         int opcion = Integer.parseInt(JOptionPane.showInputDialog(listaCarpetas));
         opcion = opcion - 1;
+        // TODO: ArrayIndexOutOfBoundsException no manejado
         File carpetaEscogida = new File(carpetas[opcion]);
         // System.out.println(carpetas.length);
         registro(carpetaEscogida);

@@ -25,6 +25,7 @@ public class Equilatero implements IMedidas {
     }
 
     public double getAltura() {
+        // TODO: El cuadrado de la altura seria el cuadrado del lado menos el cuadrado de medio lado
         double h = Math.sqrt(Math.pow(this.lado, 2) + Math.pow(this.lado / 2, 2));
         return h;
     }

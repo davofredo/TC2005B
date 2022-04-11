@@ -76,3 +76,19 @@ Realizar una aplicación con las siguientes características:
      * Implementar excepciones personalizadas (pueden crearse las que se consideren necesarias, a gusto de cada uno)
      * Utilizar paquetes (servicios, constantes, domain, utilerías, abstracts, etc)
      */
+
+
+## Retroalimentacion
+Hay muchas areas de mejora en el codigo, sobre todo en lo que se refiere a validaciones, mantenibilidad y manejo de excepciones. Para mayuores detalles ver los comentarios que contienen TODO
+
+### Comentarios Positivos
+- Hubo un caso donde se hizo buen uso del try-catch, para manejar multiples flujos excepcionales de forma elegante
+- Buena organizacion de las constantes
+
+### Comentarios Negativos
+- Las sentencias switch usadas para la logica de los menus complican el codigo mas de lo necesario.
+- Muchos flujos excepcionales dependen de una logica muy rebuscada, lo que dificulta el mantenimiento.
+- Hay que revisar algunos de los calulos
+- Faltaron validaciones sobre las entradas del usuario.
+- Falto manejar excepciones en la lectura y escritura de archivos
+- Las conexiones a los archivos no se cerraron correctamente.

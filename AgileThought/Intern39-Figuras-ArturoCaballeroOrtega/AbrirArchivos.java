@@ -28,10 +28,14 @@ public class AbrirArchivos implements Runnable {
             FileReader file = new FileReader(archivos);
             BufferedReader br = new BufferedReader(file);
             String linea = br.readLine();
+            // TODO: No es seguro cerrar las conexiones dentro del bloque try. Las siguientes alternativas serian mejores:
+            //   A. Usar try with resources
+            //   B. Declarar br fuera del try y llamar a close desde un bloque finally
             br.close();
             file.close();
             JOptionPane.showMessageDialog(null, linea);
         } catch (IOException e) {
+            // TODO: El usuario va a estar esperando retroalimentacion desde un JOptionPane, no desde la consola
             System.err.println("Error al abrir el archivo");
         }
     }
